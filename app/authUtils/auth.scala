@@ -9,7 +9,6 @@ object auth {
 
 
   def isValidUser(user: String) = {
-
     user == "admin"
   }
 
