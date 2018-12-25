@@ -1,0 +1,24 @@
+@import authUtils.User
+@import helper._
+@(message: String, userForm: Form[User])(implicit request: MessagesRequestHeader)
+
+@main(message){
+    @message
+
+
+    @helper.form(action=routes.AuthController.login()){
+        @CSRF.formField
+        @helper.inputText(userForm("name"))
+        @helper.inputPassword(userForm("password"))
+        @helper.textarea(userForm("textArea"))
+        <div class="buttons">
+            <input type="submit" value="SubmiT"/>
+        </div>
+    }
+
+
+
+
+
+
+}
