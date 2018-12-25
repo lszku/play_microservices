@@ -1,5 +1,6 @@
 package controllers
 
+import auth.AuthAction
 import javax.inject._
 import play.api.i18n.I18nSupport
 import play.api.libs.json.Json
@@ -13,7 +14,9 @@ import scala.util.{Failure, Random, Success, Try}
   * application's home page.
   */
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents, dataRepository: DataRepository )
+class HomeController @Inject()(cc: ControllerComponents,
+                               dataRepository: DataRepository,
+                               authAction: AuthAction)
   extends AbstractController(cc) with I18nSupport {
 
   /**
@@ -24,7 +27,7 @@ class HomeController @Inject()(cc: ControllerComponents, dataRepository: DataRep
     * a path of `/`.
     */
   def index() = Action { implicit request =>
-      Ok(views.html.index())
+    Ok(views.html.index())
   }
 
   def hello(name: String) = Action {
@@ -51,7 +54,7 @@ class HomeController @Inject()(cc: ControllerComponents, dataRepository: DataRep
     }
   }
 
-  def getPost(postId: Long) = Action{ implicit req =>
+  def getPost(postId: Long) = authAction { implicit req =>
     dataRepository.getPost(postId) map { post =>
       Ok(Json.toJson(post))
     } getOrElse NotFound
