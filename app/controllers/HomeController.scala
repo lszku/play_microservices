@@ -2,6 +2,7 @@ package controllers
 
 import auth.AuthAction
 import javax.inject._
+import play.api.Logger
 import play.api.i18n.I18nSupport
 import play.api.libs.json.Json
 import play.api.mvc._
@@ -55,6 +56,8 @@ class HomeController @Inject()(cc: ControllerComponents,
   }
 
   def getPost(postId: Long) = authAction { implicit req =>
+    println("i'm in secured endpoint!")
+    Logger.info("Im in secured endpoint")
     dataRepository.getPost(postId) map { post =>
       Ok(Json.toJson(post))
     } getOrElse NotFound
